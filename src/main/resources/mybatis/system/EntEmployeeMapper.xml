@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mapper.EntEmployeeMapper">
+    
+    <resultMap type="EntEmployee" id="EntEmployeeResult">
+        <result property="id"    column="id"    />
+        <result property="empName"    column="emp_name"    />
+        <result property="sex"    column="sex"    />
+        <result property="empBrithday"    column="emp_brithday"    />
+        <result property="cardNumber"    column="card_number"    />
+        <result property="phoneNumber"    column="phone_number"    />
+        <result property="empAddress"    column="emp_address"    />
+        <result property="empPost"    column="emp_post"    />
+        <result property="payStatus"    column="pay_status"    />
+    </resultMap>
+
+    <sql id="selectEntEmployeeVo">
+        select id, emp_name, sex, emp_brithday, card_number, phone_number, emp_address, emp_post, pay_status from ent_employee
+    </sql>
+
+    <select id="selectEntEmployeeList" parameterType="EntEmployee" resultMap="EntEmployeeResult">
+        <include refid="selectEntEmployeeVo"/>
+        <where>  
+            <if test="empName != null  and empName != ''"> and emp_name like concat('%', #{empName}, '%')</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="empBrithday != null "> and emp_brithday = #{empBrithday}</if>
+            <if test="cardNumber != null  and cardNumber != ''"> and card_number = #{cardNumber}</if>
+            <if test="phoneNumber != null  and phoneNumber != ''"> and phone_number = #{phoneNumber}</if>
+            <if test="empAddress != null  and empAddress != ''"> and emp_address = #{empAddress}</if>
+            <if test="empPost != null  and empPost != ''"> and emp_post = #{empPost}</if>
+            <if test="payStatus != null "> and pay_status = #{payStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectEntEmployeeById" parameterType="Long" resultMap="EntEmployeeResult">
+        <include refid="selectEntEmployeeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertEntEmployee" parameterType="EntEmployee">
+        insert into ent_employee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="empName != null  and empName != ''">emp_name,</if>
+            <if test="sex != null  and sex != ''">sex,</if>
+            <if test="empBrithday != null ">emp_brithday,</if>
+            <if test="cardNumber != null  and cardNumber != ''">card_number,</if>
+            <if test="phoneNumber != null  and phoneNumber != ''">phone_number,</if>
+            <if test="empAddress != null  and empAddress != ''">emp_address,</if>
+            <if test="empPost != null  and empPost != ''">emp_post,</if>
+            <if test="payStatus != null ">pay_status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="empName != null  and empName != ''">#{empName},</if>
+            <if test="sex != null  and sex != ''">#{sex},</if>
+            <if test="empBrithday != null ">#{empBrithday},</if>
+            <if test="cardNumber != null  and cardNumber != ''">#{cardNumber},</if>
+            <if test="phoneNumber != null  and phoneNumber != ''">#{phoneNumber},</if>
+            <if test="empAddress != null  and empAddress != ''">#{empAddress},</if>
+            <if test="empPost != null  and empPost != ''">#{empPost},</if>
+            <if test="payStatus != null ">#{payStatus},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEntEmployee" parameterType="EntEmployee">
+        update ent_employee
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="empName != null  and empName != ''">emp_name = #{empName},</if>
+            <if test="sex != null  and sex != ''">sex = #{sex},</if>
+            <if test="empBrithday != null ">emp_brithday = #{empBrithday},</if>
+            <if test="cardNumber != null  and cardNumber != ''">card_number = #{cardNumber},</if>
+            <if test="phoneNumber != null  and phoneNumber != ''">phone_number = #{phoneNumber},</if>
+            <if test="empAddress != null  and empAddress != ''">emp_address = #{empAddress},</if>
+            <if test="empPost != null  and empPost != ''">emp_post = #{empPost},</if>
+            <if test="payStatus != null ">pay_status = #{payStatus},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEntEmployeeById" parameterType="Long">
+        delete from ent_employee where id = #{id}
+    </delete>
+
+    <delete id="deleteEntEmployeeByIds" parameterType="String">
+        delete from ent_employee where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

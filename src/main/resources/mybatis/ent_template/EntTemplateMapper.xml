@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.insurance.mapper.EntTemplateMapper">
+    
+    <resultMap type="EntTemplate" id="EntTemplateResult">
+        <result property="id"    column="id"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="pagename"    column="pagename"    />
+        <result property="templateCombination"    column="template_combination"    />
+        <result property="creator"    column="creator"    />
+        <result property="creationTime"    column="creation_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectEntTemplateVo">
+        select id, serial_number, pagename, template_combination, creator, creation_time, remark from ent_template
+    </sql>
+
+    <select id="selectEntTemplateList" parameterType="EntTemplate" resultMap="EntTemplateResult">
+        <include refid="selectEntTemplateVo"/>
+        <where>  
+            <if test="serialNumber != null "> and serial_number = #{serialNumber}</if>
+            <if test="pagename != null  and pagename != ''"> and pagename like concat('%', #{pagename}, '%')</if>
+            <if test="templateCombination != null  and templateCombination != ''"> and template_combination = #{templateCombination}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="creationTime != null "> and creation_time = #{creationTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectEntTemplateById" parameterType="Long" resultMap="EntTemplateResult">
+        <include refid="selectEntTemplateVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertEntTemplate" parameterType="EntTemplate" useGeneratedKeys="true" keyProperty="id">
+        insert into ent_template
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="serialNumber != null ">serial_number,</if>
+            <if test="pagename != null  and pagename != ''">pagename,</if>
+            <if test="templateCombination != null  and templateCombination != ''">template_combination,</if>
+            <if test="creator != null  and creator != ''">creator,</if>
+            <if test="creationTime != null ">creation_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="serialNumber != null ">#{serialNumber},</if>
+            <if test="pagename != null  and pagename != ''">#{pagename},</if>
+            <if test="templateCombination != null  and templateCombination != ''">#{templateCombination},</if>
+            <if test="creator != null  and creator != ''">#{creator},</if>
+            <if test="creationTime != null ">#{creationTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEntTemplate" parameterType="EntTemplate">
+        update ent_template
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="serialNumber != null ">serial_number = #{serialNumber},</if>
+            <if test="pagename != null  and pagename != ''">pagename = #{pagename},</if>
+            <if test="templateCombination != null  and templateCombination != ''">template_combination = #{templateCombination},</if>
+            <if test="creator != null  and creator != ''">creator = #{creator},</if>
+            <if test="creationTime != null ">creation_time = #{creationTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEntTemplateById" parameterType="Long">
+        delete from ent_template where id = #{id}
+    </delete>
+
+    <delete id="deleteEntTemplateByIds" parameterType="String">
+        delete from ent_template where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

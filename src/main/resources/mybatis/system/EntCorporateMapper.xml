@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mapper.EntCorporateMapper">
+    
+    <resultMap type="EntCorporate" id="EntCorporateResult">
+        <result property="id"    column="id"    />
+        <result property="corporateName"    column="corporate_name"    />
+        <result property="site"    column="site"    />
+        <result property="openAnAccountStatus"    column="open_an_account_status"    />
+        <result property="openAnAccountTime"    column="open_an_account_time"    />
+        <result property="founder"    column="founder"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectEntCorporateVo">
+        select id, corporate_name, site, open_an_account_status, open_an_account_time, founder, remark from ent_corporate
+    </sql>
+
+    <select id="selectEntCorporateList" parameterType="EntCorporate" resultMap="EntCorporateResult">
+        <include refid="selectEntCorporateVo"/>
+        <where>  
+            <if test="corporateName != null  and corporateName != ''"> and corporate_name like concat('%', #{corporateName}, '%')</if>
+            <if test="site != null  and site != ''"> and site = #{site}</if>
+            <if test="openAnAccountStatus != null "> and open_an_account_status = #{openAnAccountStatus}</if>
+            <if test="openAnAccountTime != null "> and open_an_account_time = #{openAnAccountTime}</if>
+            <if test="founder != null  and founder != ''"> and founder = #{founder}</if>
+        </where>
+    </select>
+    
+    <select id="selectEntCorporateById" parameterType="Long" resultMap="EntCorporateResult">
+        <include refid="selectEntCorporateVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertEntCorporate" parameterType="EntCorporate" useGeneratedKeys="true" keyProperty="id">
+        insert into ent_corporate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="corporateName != null  and corporateName != ''">corporate_name,</if>
+            <if test="site != null  and site != ''">site,</if>
+            <if test="openAnAccountStatus != null ">open_an_account_status,</if>
+            <if test="openAnAccountTime != null ">open_an_account_time,</if>
+            <if test="founder != null  and founder != ''">founder,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="corporateName != null  and corporateName != ''">#{corporateName},</if>
+            <if test="site != null  and site != ''">#{site},</if>
+            <if test="openAnAccountStatus != null ">#{openAnAccountStatus},</if>
+            <if test="openAnAccountTime != null ">#{openAnAccountTime},</if>
+            <if test="founder != null  and founder != ''">#{founder},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEntCorporate" parameterType="EntCorporate">
+        update ent_corporate
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="corporateName != null  and corporateName != ''">corporate_name = #{corporateName},</if>
+            <if test="site != null  and site != ''">site = #{site},</if>
+            <if test="openAnAccountStatus != null ">open_an_account_status = #{openAnAccountStatus},</if>
+            <if test="openAnAccountTime != null ">open_an_account_time = #{openAnAccountTime},</if>
+            <if test="founder != null  and founder != ''">founder = #{founder},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEntCorporateById" parameterType="Long">
+        delete from ent_corporate where id = #{id}
+    </delete>
+
+    <delete id="deleteEntCorporateByIds" parameterType="String">
+        delete from ent_corporate where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
