@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.insurance.employee.mapper.TemplateMapper">
+    <resultMap type="com.ruoyi.project.insurance.employee.domain.Template" id="TemplateResult" >
+        <id property="Id" column="id"/>
+        <result property="serialNumber" column="serial_number"/>
+        <result property="pageName" column="pagename"/>
+        <result property="templateCombination" column="template_combination"/>
+        <result property="creator" column="creator"/>
+        <result property="creationTime" column="creation_time"/>
+        <result property="remark" column="remark"/>
+
+    </resultMap>
+    <sql id="selectTemplatVo">
+SELECT
+DISTINCT
+t.id
+t.serial_number,
+t.pagename,
+t.template_combination,
+t.creator,
+t.creation_time,
+t.remark
+FROM
+ent_template t
+LEFT JOIN
+ent_employee_template et
+ON
+t.id = et.template_id
+LEFT JOIN
+ent_employee e
+ON
+e.id = et.employee_id
+    </sql>
+
+    <select id="selectTemplateList" parameterType="Template" resultMap="TemplateResult">
+        <include refid="selectTemplatVo"/>
+
+        <if test="serialNumber != null and serialNumber != ''">
+            AND t.serial_number = #{serialNumber}
+        </if>
+        <if test="pageName != null and pageName != ''">
+            AND t.pagename = like concat('%', #{pageName}, '%')
+        </if>
+        <if test="templateCombination != null and templateCombination != ''">
+            AND t.template_combination = #{templateCombination}
+
+        </if>
+        <if test="creator != null and creator != ''">
+            AND t.creator = like concat('%', #{creator}, '%')
+
+        </if><if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+        and date_format(t.creation_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+    </if>
+        <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+            and date_format(t.creation_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+
+        </if> <if test="remark != null and remark != ''">
+        AND t.remark = #{remark}
+
+    </if>
+    </select>
+    <select id="selectTemplatePermissionByEmployeeId" parameterType="Long" resultMap="TemplateResult">
+        <include refid="selectTemplatVo"/>
+        WHERE employee_id = #{id}
+    </select>
+    <select id="selectTemplateAll" resultMap="TemplateResult">
+        <include refid="selectTemplatVo"/>
+    </select>
+    <select id="selectTemplateListByEmployeeId" parameterType="Long" resultType="Integer">
+		select t.id
+        from ent_template t
+	        left join ent_employee_template et on et.template_id = t.id
+	        left join ent_employee e on e.id = et.employee_id
+	    where e.id = #{employeeId}
+	</select>
+    <select id="selectTemplateById" parameterType="Long" resultMap="TemplateResult">
+        <include refid="selectTemplatVo"/>
+        where t.id = #{Id}
+    </select>
+    <select id="selectTemplateByUserName" parameterType="String" resultMap="TemplateResult">
+        <include refid="selectTemplatVo"/>
+        WHERE e.emp_name = #{userName}
+    </select>
+    <select id="checkTemplateNameUnique" parameterType="String" resultMap="TemplateResult">
+        <include refid="selectTemplatVo"/>
+        where t.pagename=#{pageName}
+    </select>
+    <update id="updateTemplate" parameterType="Template">
+        update sys_role
+        <set>
+            <if test="serialNumber != null and serialNumber != ''">serial_number = #{serialNumber},</if>
+            <if test="pageName != null and pageName != ''">pagename = #{pageName},</if>
+            <if test="templateCombination != null and templateCombination != ''"> template_combination = #{templateCombination},</if>
+            <if test="creator != null and creator != ''"> creator = #{creator},</if>
+            <if test="creationTime != null and creationTime != ''"> creation_time = #{creationTime},</if>
+            creation_time = sysdate()
+            <if test="remark != null">remark = #{remark},</if>
+
+        </set>
+        where id = #{Id}
+    </update>
+    <insert id="insertTemplate" parameterType="Template" useGeneratedKeys="true" keyProperty="Id">
+        insert into sys_role(
+        <if test="Id != null and Id != 0">id,</if>
+        <if test="serialNunber != null and serialNunber != ''">seral_number,</if>
+        <if test="pageName != null and pageName != ''">pagename,</if>
+        <if test="templateCombination != null and templateCombination != ''">template_combination,</if>
+
+        <if test="creator != null and creator != ''">creator,</if>
+
+        <if test="creationTime != null and creationTime != ''">,
+        </if>
+        creationTime
+        <if test="remark != null and remark != ''">remark,</if>
+        )values(
+        <if test="Id != null and Id != 0">#{id},</if>
+        <if test="seralNumber != null and seralNumber != ''">#{seralNumber},</if>
+        <if test="pageName != null and pageName != ''">#{pageName},</if>
+        <if test="templateCombination != null and templateCombination != ''">#{templateCombination},</if>
+        <if test="creator != null and creator != ''">#{creator},</if>
+
+        <if test="creationTime != null and creationTime != ''">#{creationTime},</if>
+        sysdate()
+        <if test="remark != null and remark != ''">#{remark},</if>
+        )
+    </insert>
+</mapper>

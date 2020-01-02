@@ -21,11 +21,7 @@ import com.ruoyi.project.system.mapper.SysUserPostMapper;
 import com.ruoyi.project.system.mapper.SysUserRoleMapper;
 import com.ruoyi.project.system.service.ISysUserService;
 
-/**
- * 用户 业务层处理
- * 
- * @author ruoyi
- */
+
 @Service
 public class SysUserServiceImpl implements ISysUserService
 {

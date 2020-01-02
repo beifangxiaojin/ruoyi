@@ -137,6 +137,7 @@
 			<artifactId>commons-io</artifactId>
 			<version>${commons.io.version}</version>
 		</dependency>
+
 		
 		<!--文件上传工具类 -->
 		<dependency>
@@ -195,6 +196,10 @@
             <artifactId>swagger-annotations</artifactId>
             <version>1.5.21</version>
         </dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
         
         <dependency>
             <groupId>io.swagger</groupId>
@@ -208,7 +213,7 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>${swagger.version}</version>
 		</dependency>
-		
+
         <!-- 获取系统信息 -->
 		<dependency>
 			<groupId>com.github.oshi</groupId>
