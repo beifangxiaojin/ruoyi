@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="creator"    column="creator"    />
         <result property="creationTime"    column="creation_time"    />
         <result property="remark"    column="remark"    />
+
     </resultMap>
 
     <sql id="selectEntTemplateVo">

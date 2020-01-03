@@ -2,9 +2,12 @@ package com.ruoyi.project.insurance.employee.domain;
 
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 import com.ruoyi.framework.web.domain.BaseEntity;
+import com.ruoyi.project.system.domain.EntEmployee;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
+
 @Data
 public class Template extends BaseEntity {
     private static final long serialVersionUID = 1L;
@@ -27,11 +30,11 @@ public class Template extends BaseEntity {
     @Excel(name = "创建人")
     private String creator;
     @Excel(name = "创建时间")
-    private Date creattonTime;
+    private Date creationTime;
     @Excel(name = "备注")
     private String remark;
     /**
      * 人员组
      */
-    private Long[] employeeId;
+    private EntEmployee employees;
 }

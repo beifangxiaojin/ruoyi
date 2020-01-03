@@ -53,7 +53,7 @@ public interface TemplateService {
          * @param userName 用户名
          * @return 保险组列表
          */
-        public List<com.ruoyi.project.insurance.employee.domain.Template> selectTemplateByUserName(String userName);
+        public List<com.ruoyi.project.insurance.employee.domain.Template> selectTemplateByUserName(String empName);
 
         /**
          * 校验保险组名称是否唯一

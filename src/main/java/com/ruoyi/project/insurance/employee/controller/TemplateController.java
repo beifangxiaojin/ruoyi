@@ -45,6 +45,10 @@ public class TemplateController extends BaseController {
     public AjaxResult getInfo(@PathVariable Long Id) {
         return AjaxResult.success(templateService.selecttemplateById(Id));
     }
+    @GetMapping(value = "/{empName}")
+    public AjaxResult getname(@PathVariable String empName){
+        return AjaxResult.success(templateService.selectTemplateByUserName(empName));
+    }
 
     @Log(title = "保险组管理", businessType = BusinessType.INSERT)
     @PostMapping

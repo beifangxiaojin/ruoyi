@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.ruoyi.project.system.mapper.EntCorporateMapper">
     
     <resultMap type="EntCorporate" id="EntCorporateResult">
-        <result property="id"    column="id"    />
+        <id column=""/>
         <result property="corporateName"    column="corporate_name"    />
         <result property="site"    column="site"    />
         <result property="openAnAccountStatus"    column="open_an_account_status"    />

@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.project.insurance.employee.mapper.TemplateMapper">
-    <resultMap type="com.ruoyi.project.insurance.employee.domain.Template" id="TemplateResult" >
+    <resultMap type="com.ruoyi.project.insurance.employee.domain.Template" id="TemplateResult">
         <id property="Id" column="id"/>
         <result property="serialNumber" column="serial_number"/>
         <result property="pageName" column="pagename"/>
@@ -11,12 +11,31 @@
         <result property="creator" column="creator"/>
         <result property="creationTime" column="creation_time"/>
         <result property="remark" column="remark"/>
-
+        <collection property="employees" column="id" javaType="com.ruoyi.project.system.domain.EntEmployee"
+                    resultMap="EmployeeResult"/>
+    </resultMap>
+    <resultMap id="EmployeeResult" type="com.ruoyi.project.system.domain.EntEmployee">
+        <id property="id" column="id"/>
+        <result property="empName" column="emp_name"/>
+        <result property="empBrithday" column="emp_brithday"/>
+        <result column="sex" property="sex"/>
+        <result property="cardNumber" column="card_number"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="empAddress" column="emp_address"/>
+        <result property="empPost" column="emp_post"/>
+        <result property="payStatus" column="pay_status"/>
     </resultMap>
     <sql id="selectTemplatVo">
 SELECT
-DISTINCT
-t.id
+e.id,
+e.emp_name,
+e.emp_address,
+e.sex,
+e.emp_brithday,
+e.card_number,
+e.phone_number,
+e.emp_post,
+e.pay_status,
 t.serial_number,
 t.pagename,
 t.template_combination,
@@ -28,39 +47,66 @@ ent_template t
 LEFT JOIN
 ent_employee_template et
 ON
-t.id = et.template_id
+et.template_id = t.id
 LEFT JOIN
 ent_employee e
 ON
-e.id = et.employee_id
+et.employee_id = e.id
+
+
     </sql>
 
     <select id="selectTemplateList" parameterType="Template" resultMap="TemplateResult">
-        <include refid="selectTemplatVo"/>
+        <!-- <include refid="selectTemplatVo"/>
+         <where>
+             <if test="empName !=null and empName != ''">
+                 and e.emp_name = #{empName}
+             </if>
+             <if test="cardNumber !=null and cardNumber != ''">
+                 and e.card_number = #{cardNumber}
+             </if>
+             <if test="serialNumber != null and serialNumber != ''">
+                 AND t.serial_number = #{serialNumber}
+             </if>
+             <if test="pageName != null and pageName != ''">
+                 AND t.pagename = like concat('%', #{pageName}, '%')
+             </if>
+             <if test="templateCombination != null and templateCombination != ''">
+                 AND t.template_combination = #{templateCombination}
 
-        <if test="serialNumber != null and serialNumber != ''">
-            AND t.serial_number = #{serialNumber}
-        </if>
-        <if test="pageName != null and pageName != ''">
-            AND t.pagename = like concat('%', #{pageName}, '%')
-        </if>
-        <if test="templateCombination != null and templateCombination != ''">
-            AND t.template_combination = #{templateCombination}
+             </if>
+             <if test="creator != null and creator != ''">
+                 AND t.creator = like concat('%', #{creator}, '%')
 
-        </if>
-        <if test="creator != null and creator != ''">
-            AND t.creator = like concat('%', #{creator}, '%')
+             </if>
+             <if test="creationTime != null ">and creation_time = #{creationTime}</if>
+             <if test="remark != null and remark != ''">
+                 AND t.remark = #{remark}
 
-        </if><if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
-        and date_format(t.creation_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
-    </if>
-        <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
-            and date_format(t.creation_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
-
-        </if> <if test="remark != null and remark != ''">
-        AND t.remark = #{remark}
-
-    </if>
+             </if>
+         </where>-->
+        SELECT
+        e.id,
+        e.emp_name,
+        e.emp_post,
+        e.pay_status,
+        t.pagename,
+        t.creation_time,
+        t.creator,
+        t.template_combination,
+        t.creator,
+        t.creation_time,
+        t.remark
+        FROM
+        ent_template t
+        LEFT JOIN
+        ent_employee_template et
+        ON
+        et.template_id = t.id
+        LEFT JOIN
+        ent_employee e
+        ON
+        et.employee_id = e.id
     </select>
     <select id="selectTemplatePermissionByEmployeeId" parameterType="Long" resultMap="TemplateResult">
         <include refid="selectTemplatVo"/>
@@ -82,7 +128,7 @@ e.id = et.employee_id
     </select>
     <select id="selectTemplateByUserName" parameterType="String" resultMap="TemplateResult">
         <include refid="selectTemplatVo"/>
-        WHERE e.emp_name = #{userName}
+        WHERE e.emp_name = #{empName}
     </select>
     <select id="checkTemplateNameUnique" parameterType="String" resultMap="TemplateResult">
         <include refid="selectTemplatVo"/>
@@ -93,9 +139,11 @@ e.id = et.employee_id
         <set>
             <if test="serialNumber != null and serialNumber != ''">serial_number = #{serialNumber},</if>
             <if test="pageName != null and pageName != ''">pagename = #{pageName},</if>
-            <if test="templateCombination != null and templateCombination != ''"> template_combination = #{templateCombination},</if>
-            <if test="creator != null and creator != ''"> creator = #{creator},</if>
-            <if test="creationTime != null and creationTime != ''"> creation_time = #{creationTime},</if>
+            <if test="templateCombination != null and templateCombination != ''">template_combination =
+                #{templateCombination},
+            </if>
+            <if test="creator != null and creator != ''">creator = #{creator},</if>
+            <if test="creationTime != null and creationTime != ''">creation_time = #{creationTime},</if>
             creation_time = sysdate()
             <if test="remark != null">remark = #{remark},</if>
 
