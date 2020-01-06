@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  * 企业雇员管理对象 ent_employee
- * 
+ *
  * @author ruoyi
  * @date 2019-12-24
  */
@@ -51,84 +51,85 @@ public class EntEmployee extends BaseEntity
     @Excel(name = "缴费状态")
     private Long payStatus;
 
-    public void setId(Long id) 
+
+   public void setId(Long id)
     {
         this.id = id;
     }
 
-    public Long getId() 
+    public Long getId()
     {
         return id;
     }
-    public void setEmpName(String empName) 
+    public void setEmpName(String empName)
     {
         this.empName = empName;
     }
 
-    public String getEmpName() 
+    public String getEmpName()
     {
         return empName;
     }
-    public void setSex(String sex) 
+    public void setSex(String sex)
     {
         this.sex = sex;
     }
 
-    public String getSex() 
+    public String getSex()
     {
         return sex;
     }
-    public void setEmpBrithday(Date empBrithday) 
+    public void setEmpBrithday(Date empBrithday)
     {
         this.empBrithday = empBrithday;
     }
 
-    public Date getEmpBrithday() 
+    public Date getEmpBrithday()
     {
         return empBrithday;
     }
-    public void setCardNumber(String cardNumber) 
+    public void setCardNumber(String cardNumber)
     {
         this.cardNumber = cardNumber;
     }
 
-    public String getCardNumber() 
+    public String getCardNumber()
     {
         return cardNumber;
     }
-    public void setPhoneNumber(String phoneNumber) 
+    public void setPhoneNumber(String phoneNumber)
     {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getPhoneNumber() 
+    public String getPhoneNumber()
     {
         return phoneNumber;
     }
-    public void setEmpAddress(String empAddress) 
+    public void setEmpAddress(String empAddress)
     {
         this.empAddress = empAddress;
     }
 
-    public String getEmpAddress() 
+    public String getEmpAddress()
     {
         return empAddress;
     }
-    public void setEmpPost(String empPost) 
+    public void setEmpPost(String empPost)
     {
         this.empPost = empPost;
     }
 
-    public String getEmpPost() 
+    public String getEmpPost()
     {
         return empPost;
     }
-    public void setPayStatus(Long payStatus) 
+    public void setPayStatus(Long payStatus)
     {
         this.payStatus = payStatus;
     }
 
-    public Long getPayStatus() 
+    public Long getPayStatus()
     {
         return payStatus;
     }

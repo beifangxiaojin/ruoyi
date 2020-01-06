@@ -3,8 +3,6 @@ package com.ruoyi.project.insurance.employee.domain;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 import com.ruoyi.framework.web.domain.BaseEntity;
 import com.ruoyi.project.insurance.domain.EntTemplate;
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
 import lombok.Data;
 
 import javax.validation.constraints.Size;
