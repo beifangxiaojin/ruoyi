@@ -22,7 +22,7 @@ import com.ruoyi.framework.web.page.TableDataInfo;
 
 /**
  * 模板添加Controller
- * 
+ *
  * @author ruoyi
  * @date 2019-12-25
  */
@@ -34,7 +34,7 @@ public class EntTemplateController extends BaseController
     private IEntTemplateService entTemplateService;
 
     /**
-     * 查询模板添加列表
+     * 查询模板添加列表4
      */
     @PreAuthorize("@ss.hasPermi('ent_template:template:list')")
     @GetMapping("/list")
