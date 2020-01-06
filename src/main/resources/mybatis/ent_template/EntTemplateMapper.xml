@@ -12,22 +12,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="creator"    column="creator"    />
         <result property="creationTime"    column="creation_time"    />
         <result property="remark"    column="remark"    />
-
+        <result property="delStatus" column="del_status"/>
     </resultMap>
 
     <sql id="selectEntTemplateVo">
-        select id, serial_number, pagename, template_combination, creator, creation_time, remark from ent_template
+        select id, serial_number, pagename, template_combination, creator, creation_time, remark,del_status from ent_template
     </sql>
 
     <select id="selectEntTemplateList" parameterType="EntTemplate" resultMap="EntTemplateResult">
         <include refid="selectEntTemplateVo"/>
-        <where>  
+            where del_status = '0'
             <if test="serialNumber != null "> and serial_number = #{serialNumber}</if>
             <if test="pagename != null  and pagename != ''"> and pagename like concat('%', #{pagename}, '%')</if>
             <if test="templateCombination != null  and templateCombination != ''"> and template_combination = #{templateCombination}</if>
             <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
             <if test="creationTime != null "> and creation_time = #{creationTime}</if>
-        </where>
+
     </select>
     
     <select id="selectEntTemplateById" parameterType="Long" resultMap="EntTemplateResult">
