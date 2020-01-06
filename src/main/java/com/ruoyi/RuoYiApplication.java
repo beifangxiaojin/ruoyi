@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 /**
  * 启动程序
- * 
+ *
  * @author ruoyi
  */
 
@@ -27,6 +27,6 @@ public class RuoYiApplication
                 " |  | \\ `'   /|   `-'  /           \n" +
                 " |  |  \\    /  \\      /           \n" +
                 " ''-'   `'-'    `-..-'              " +
-                "");
+                "我的灵魂，正随白云飘向远方，今日风尘对我私语 明日星辰为我闪耀");
     }
 }
