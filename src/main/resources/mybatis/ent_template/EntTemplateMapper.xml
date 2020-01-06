@@ -44,6 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="creator != null  and creator != ''">creator,</if>
             <if test="creationTime != null ">creation_time,</if>
             <if test="remark != null  and remark != ''">remark,</if>
+            <if test="elStatus !=null and delStatus != ''">del_status</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="serialNumber != null ">#{serialNumber},</if>
@@ -51,7 +52,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="templateCombination != null  and templateCombination != ''">#{templateCombination},</if>
             <if test="creator != null  and creator != ''">#{creator},</if>
             <if test="creationTime != null ">#{creationTime},</if>
-            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+            <if test="delStatus !=null and delStatus != ''">#{delStatus}</if>
          </trim>
     </insert>
 
@@ -64,6 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="creator != null  and creator != ''">creator = #{creator},</if>
             <if test="creationTime != null ">creation_time = #{creationTime},</if>
             <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="delStatus !=null and delStatus != ''">del_status = {delStatus}#</if>
         </trim>
         where id = #{id}
     </update>
