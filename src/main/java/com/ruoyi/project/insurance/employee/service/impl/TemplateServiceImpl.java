@@ -40,8 +40,8 @@ public class TemplateServiceImpl implements TemplateService{
     }
 
     @Override
-    public List<Template> selectTemplateByUserName(String empName) {
-        return templateMapper.selectTemplateByUserName(empName);
+    public List<Template> selectTemplateByUserName(String userName) {
+        return templateMapper.selectTemplateByUserName(userName);
     }
 
     @Override
