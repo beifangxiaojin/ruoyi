@@ -40,7 +40,7 @@ public class EntTemplate extends BaseEntity
     /** 创建时间 */
     @Excel(name = "创建时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date creationTime;
-
+    @Excel(name = "使用状态")
     private String delStatus;
 
 }
