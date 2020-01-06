@@ -26,7 +26,7 @@
         <result property="payStatus" column="pay_status"/>
     </resultMap>
     <sql id="selectTemplatVo">
-SELECT
+/*SELECT
 e.id,
 e.emp_name,
 e.emp_address,
@@ -51,51 +51,46 @@ et.template_id = t.id
 LEFT JOIN
 ent_employee e
 ON
-et.employee_id = e.id
+et.employee_id = e.id*/
 
 
     </sql>
 
     <select id="selectTemplateList" parameterType="Template" resultMap="TemplateResult">
-        <!-- <include refid="selectTemplatVo"/>
-         <where>
-             <if test="empName !=null and empName != ''">
-                 and e.emp_name = #{empName}
-             </if>
-             <if test="cardNumber !=null and cardNumber != ''">
-                 and e.card_number = #{cardNumber}
-             </if>
-             <if test="serialNumber != null and serialNumber != ''">
-                 AND t.serial_number = #{serialNumber}
-             </if>
-             <if test="pageName != null and pageName != ''">
-                 AND t.pagename = like concat('%', #{pageName}, '%')
-             </if>
-             <if test="templateCombination != null and templateCombination != ''">
-                 AND t.template_combination = #{templateCombination}
+        <include refid="selectTemplatVo"/>
+        <!--<where>-->
+        <!--<if test="empName !=null and empName != ''">
+            and e.emp_name = #{empName}
+        </if>
+        <if test="cardNumber !=null and cardNumber != ''">
+            and e.card_number = #{cardNumber}
+        </if>-->
+        <!--   <if test="serialNumber != null and serialNumber != ''">
+               AND t.serial_number = #{serialNumber}
+           </if>
+           <if test="pageName != null and pageName != ''">
+               AND t.pagename = like concat('%', #{pageName}, '%')
+           </if>
+           <if test="templateCombination != null and templateCombination != ''">
+               AND t.template_combination = #{templateCombination}
 
-             </if>
-             <if test="creator != null and creator != ''">
-                 AND t.creator = like concat('%', #{creator}, '%')
+           </if>
+           <if test="creator != null and creator != ''">
+               AND t.creator = like concat('%', #{creator}, '%')
 
-             </if>
-             <if test="creationTime != null ">and creation_time = #{creationTime}</if>
-             <if test="remark != null and remark != ''">
-                 AND t.remark = #{remark}
+           </if>
+           <if test="creationTime != null ">and creation_time = #{creationTime}</if>
+           <if test="remark != null and remark != ''">
+               AND t.remark = #{remark}
 
-             </if>
-         </where>-->
+           </if>
+       </where>-->
         SELECT
         e.id,
         e.emp_name,
-        e.emp_post,
-        e.pay_status,
+        t.serial_number,
         t.pagename,
-        t.creation_time,
-        t.creator,
         t.template_combination,
-        t.creator,
-        t.creation_time,
         t.remark
         FROM
         ent_template t
@@ -106,11 +101,12 @@ et.employee_id = e.id
         LEFT JOIN
         ent_employee e
         ON
-        et.employee_id = e.id
+        et.template_id = e.id
+
     </select>
     <select id="selectTemplatePermissionByEmployeeId" parameterType="Long" resultMap="TemplateResult">
         <include refid="selectTemplatVo"/>
-        WHERE employee_id = #{id}
+        WHERE e.employee_id = #{id}
     </select>
     <select id="selectTemplateAll" resultMap="TemplateResult">
         <include refid="selectTemplatVo"/>
@@ -135,7 +131,7 @@ et.employee_id = e.id
         where t.pagename=#{pageName}
     </select>
     <update id="updateTemplate" parameterType="Template">
-        update sys_role
+        update ent_template
         <set>
             <if test="serialNumber != null and serialNumber != ''">serial_number = #{serialNumber},</if>
             <if test="pageName != null and pageName != ''">pagename = #{pageName},</if>
@@ -151,7 +147,7 @@ et.employee_id = e.id
         where id = #{Id}
     </update>
     <insert id="insertTemplate" parameterType="Template" useGeneratedKeys="true" keyProperty="Id">
-        insert into sys_role(
+        insert into ent_template(
         <if test="Id != null and Id != 0">id,</if>
         <if test="serialNunber != null and serialNunber != ''">seral_number,</if>
         <if test="pageName != null and pageName != ''">pagename,</if>

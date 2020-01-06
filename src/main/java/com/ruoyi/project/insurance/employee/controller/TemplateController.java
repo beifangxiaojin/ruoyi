@@ -13,6 +13,7 @@ import com.ruoyi.project.insurance.employee.service.TemplateService;
 import org.aspectj.weaver.loadtime.Aj;
 import org.hibernate.validator.constraints.Currency;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +26,7 @@ public class TemplateController extends BaseController {
     @Autowired
     private TemplateService templateService;
 
+    @PreAuthorize("@ss.hasAnyPermi('employee:template:list')")
     @GetMapping("/list")
     public TableDataInfo list(Template template) {
         startPage();
@@ -32,7 +34,9 @@ public class TemplateController extends BaseController {
         return getDataTable(list);
     }
 
-    @Log(title = "保险组管理", businessType = BusinessType.EXPORT)
+
+    @PreAuthorize("@ss.hasAnyPermi('employee:template:export')")
+    @Log(title = "保险模板管理", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
     public AjaxResult export(Template template) {
         List<Template> list = templateService.selectTemplateList(template);
@@ -41,12 +45,13 @@ public class TemplateController extends BaseController {
 
     }
 
-    @GetMapping(value = "/{Id}")
-    public AjaxResult getInfo(@PathVariable Long Id) {
-        return AjaxResult.success(templateService.selecttemplateById(Id));
+    @GetMapping(value = "/{id}")
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
+        return AjaxResult.success(templateService.selecttemplateById(id));
     }
+
     @GetMapping(value = "/{empName}")
-    public AjaxResult getname(@PathVariable String empName){
+    public AjaxResult getname(@PathVariable("empName") String empName) {
         return AjaxResult.success(templateService.selectTemplateByUserName(empName));
     }
 
